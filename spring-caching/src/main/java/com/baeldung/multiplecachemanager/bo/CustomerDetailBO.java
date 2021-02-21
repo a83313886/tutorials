@@ -18,11 +18,13 @@ public class CustomerDetailBO {
 
     @Cacheable(cacheNames = "customers")
     public Customer getCustomerDetail(Integer customerId) {
+        System.out.println("getCustomerDetail");
         return customerDetailRepository.getCustomerDetail(customerId);
     }
 
     @Cacheable(cacheNames = "customerOrders", cacheManager = "alternateCacheManager")
     public List<Order> getCustomerOrders(Integer customerId) {
+        System.out.println("getCustomerOrders");
         return customerDetailRepository.getCustomerOrders(customerId);
     }
 }

@@ -16,8 +16,9 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 @EnableCaching
 public class MultipleCacheManagerConfig extends CachingConfigurerSupport {
 
-    @Bean
+    // @Bean
     //@Primary
+    @Override
     public CacheManager cacheManager() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager("customers", "orders");
         cacheManager.setCaffeine(Caffeine.newBuilder()
@@ -33,7 +34,8 @@ public class MultipleCacheManagerConfig extends CachingConfigurerSupport {
         return new ConcurrentMapCacheManager("customerOrders", "orderprice");
     }
 
-    @Bean
+    // @Bean
+    @Override
     public CacheResolver cacheResolver() {
         return new MultipleCacheResolver(alternateCacheManager(), cacheManager());
     }

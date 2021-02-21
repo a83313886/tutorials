@@ -11,16 +11,23 @@ import org.springframework.stereotype.Repository;
 import com.baeldung.multiplecachemanager.entity.Item;
 import com.baeldung.multiplecachemanager.entity.Order;
 
+/**
+ * @author nuc
+ */
 @Repository
 public class OrderDetailRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+
+    public OrderDetailRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public Order getOrderDetail(Integer orderId) {
         String orderDetailQuery = "select * from orderdetail where orderid = ? ";
         Order order = new Order();
         jdbcTemplate.query(orderDetailQuery, new Object[] { orderId }, new RowCallbackHandler() {
+            @Override
             public void processRow(ResultSet rs) throws SQLException {
                 order.setCustomerId(rs.getInt("customerid"));
                 order.setOrderId(rs.getInt("orderid"));
@@ -38,6 +45,7 @@ public class OrderDetailRepository {
         Item item = new Item();
 
         jdbcTemplate.query(orderItemJoinQuery, new Object[] { orderId }, new RowCallbackHandler() {
+            @Override
             public void processRow(ResultSet rs) throws SQLException {
                 order.setCustomerId(rs.getInt("customerid"));
                 order.setOrderId(rs.getInt("orderid"));
