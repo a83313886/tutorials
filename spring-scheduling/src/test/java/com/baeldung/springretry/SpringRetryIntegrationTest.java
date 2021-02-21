@@ -31,6 +31,11 @@ public class SpringRetryIntegrationTest {
     }
 
     @Test
+    public void givenRetryServiceWithRecovery_whenCallWithoutException_thenNoRetryTrigger() throws SQLException {
+        myService.retryServiceWithRecovery("aSql");
+    }
+
+    @Test
     public void givenRetryServiceWithCustomization_whenCallWithException_thenRetryRecover() throws SQLException {
         myService.retryServiceWithCustomization(null);
     }
@@ -42,7 +47,7 @@ public class SpringRetryIntegrationTest {
 
     @Test(expected = RuntimeException.class)
     public void givenTemplateRetryService_whenCallWithException_thenRetry() {
-        retryTemplate.execute(arg0 -> {
+        retryTemplate.execute(context -> {
             myService.templateRetryService();
             return null;
         });

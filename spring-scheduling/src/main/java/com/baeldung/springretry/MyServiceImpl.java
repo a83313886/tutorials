@@ -1,11 +1,11 @@
 package com.baeldung.springretry;
 
-import java.sql.SQLException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.sql.SQLException;
 
 @Service
 public class MyServiceImpl implements MyService {
@@ -20,14 +20,16 @@ public class MyServiceImpl implements MyService {
 
     @Override
     public void retryServiceWithRecovery(String sql) throws SQLException {
+        logger.info("sql:{}", sql);
         if (StringUtils.isEmpty(sql)) {
             logger.info("throw SQLException in method retryServiceWithRecovery()");
-            throw new SQLException();
+            throw new SQLException("retryServiceWithRecovery");
         }
     }
 
     @Override
     public void retryServiceWithCustomization(String sql) throws SQLException {
+        logger.info("now {}", System.currentTimeMillis());
         if (StringUtils.isEmpty(sql)) {
             logger.info("throw SQLException in method retryServiceWithCustomization()");
             throw new SQLException();
@@ -44,7 +46,7 @@ public class MyServiceImpl implements MyService {
 
     @Override
     public void recover(SQLException e, String sql) {
-        logger.info("In recover method");
+        logger.info("In recover method. sql:{}", sql, e);
     }
 
     @Override

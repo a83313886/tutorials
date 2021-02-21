@@ -19,14 +19,17 @@ public class AppConfig {
     public RetryTemplate retryTemplate() {
         RetryTemplate retryTemplate = new RetryTemplate();
 
+        // BackOffPolicy 是 兜底策略?
         FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
-        fixedBackOffPolicy.setBackOffPeriod(2000l);
+        fixedBackOffPolicy.setBackOffPeriod(2000L);
         retryTemplate.setBackOffPolicy(fixedBackOffPolicy);
 
+        // RetryPolicy 重试策略
         SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
         retryPolicy.setMaxAttempts(2);
         retryTemplate.setRetryPolicy(retryPolicy);
 
+        // 注册Listener
         retryTemplate.registerListener(new DefaultListenerSupport());
         return retryTemplate;
     }

@@ -1,11 +1,10 @@
 package com.baeldung.springretry;
 
-import java.sql.SQLException;
-
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
+
+import java.sql.SQLException;
 
 
 public interface MyService {
@@ -16,7 +15,7 @@ public interface MyService {
     @Retryable(value = SQLException.class)
     void retryServiceWithRecovery(String sql) throws SQLException;
 
-    @Retryable(value = { SQLException.class }, maxAttempts = 2, backoff = @Backoff(delay = 100))
+    @Retryable(value = { SQLException.class }, maxAttempts = 2, backoff = @Backoff(delay = 300))
     void retryServiceWithCustomization(String sql) throws SQLException;
 
     @Retryable( value = SQLException.class, maxAttemptsExpression = "${retry.maxAttempts}",
